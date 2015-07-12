@@ -12,9 +12,12 @@ RUN apt-get clean
 
 RUN mkdir /minecraft
 WORKDIR /minecraft
+
 RUN curl -O https://s3.amazonaws.com/Minecraft.Download/versions/1.8.7/minecraft_server.1.8.7.jar
 RUN echo "eula=true" > /minecraft/eula.txt
+COPY ./server-icon.png /minecraft/
+COPY ./server.properties /minecraft/
 
-CMD java -Xmx2G -jar minecraft_server.1.8.7.jar nogui
+CMD java -Xmx2G -jar minecraft_server.1.8.7.jar --nogui --world world
 
 EXPOSE 25565
