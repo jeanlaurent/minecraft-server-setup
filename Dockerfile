@@ -19,6 +19,6 @@ COPY ./ops.json /minecraft/
 COPY ./server-icon.png /minecraft/
 COPY ./server.properties /minecraft/
 
-CMD java -Xmx2G -jar minecraft_server.1.8.7.jar --nogui --world world
+CMD java -Xms1G -Xmx2G -jar minecraft_server.1.8.7.jar --nogui --world world
 
 EXPOSE 25565
