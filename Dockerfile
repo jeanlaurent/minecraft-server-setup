@@ -15,6 +15,7 @@ WORKDIR /minecraft
 
 RUN curl -O https://s3.amazonaws.com/Minecraft.Download/versions/1.8.7/minecraft_server.1.8.7.jar
 RUN echo "eula=true" > /minecraft/eula.txt
+COPY ./ops.json /minecraft/
 COPY ./server-icon.png /minecraft/
 COPY ./server.properties /minecraft/
 
