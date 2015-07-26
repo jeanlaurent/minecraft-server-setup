@@ -1,23 +1,13 @@
 ---
-- hosts : foo
+- hosts: foo
   remote_user: root
   tasks:
     - name: User | create jlm
       user: name=jlm createhome=yes shell=/bin/bash groups=sudo password=$6$rounds=100000$zGGv.ONatSJCtmeG$eyVQjggAOHvJhaKdWtLxAf3D7ew7Zln36dRg0MilRVsZBOeGzKpV.fdd18mjDwEBXwl1JaJLlzwOiCcdFR140/
     - name: User | setup ssh authorized key
-      authorized_key: user=jlm key="{{ lookup('file', '/Users/jlm/.ssh/id_rsa.pub') }}"
-
-- hosts: foo
-  remote_user: root
-  tasks:
-    - name: Docker | Install
-      shell: creates=/usr/bin/docker curl -sSL https://get.docker.com/ | sh
-    - name: Docker | Ensure /data/docker exists
-      file: path=/data/docker state=directory
-    - name: Docker | started
-      service: name=docker state=started
-    - name: Docker | jlm can run docker
-      user: name=jlm groups=docker append=yes
+      authorized_key: user=jlm key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    - name: User | setup ssh authorized key for docker-machine
+      authorized_key: user=root key="{{ lookup('file', '~/.ssh/id_docker-machine.pub') }}"
 
 - hosts: foo
   remote_user: root
@@ -26,6 +16,8 @@
       apt: name=ufw
     - name: UFW | Allow ssh through firewall
       ufw: proto=tcp port=22 rule=allow
+    - name: UFW | Allow docker through firewall
+      ufw: proto=tcp port=2376 rule=allow
     - name: UFW | Allow minecraft through firewall
       ufw: proto=tcp port=25565 rule=allow
     - name: UFW | Set ufw policy
