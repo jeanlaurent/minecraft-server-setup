@@ -19,6 +19,8 @@ COPY ./ops.json /minecraft/
 COPY ./server-icon.png /minecraft/
 COPY ./server.properties /minecraft/
 
-CMD java -Xms1G -Xmx2G -jar minecraft_server.1.8.7.jar --nogui --world world
+VOLUME /minecraft
 
 EXPOSE 25565
+
+CMD java -Xms1G -Xmx2G -jar minecraft_server.1.8.7.jar --nogui --world world
